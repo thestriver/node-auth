@@ -1,4 +1,6 @@
 const express = require("express");
+const cors = require('cors');
+
 const bodyParser = require("body-parser");
 const user = require("./routes/user"); //import user signup
 //connect API to database
@@ -9,8 +11,13 @@ InitiateMongoServer();
 
 const app = express();
 
+
+app.use(cors());
+
 // PORT
 const PORT = process.env.PORT || 4000;
+
+
 
 // Middleware
 app.use(bodyParser.json());
@@ -34,6 +41,10 @@ app.listen(PORT, (req, res) => {
   console.log(`Server Started at PORT ${PORT}`);
 });
 
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+     next();
+});
 
 
 //mongodb+srv://node-auth:<testauth>@cluster0.ikxg2.mongodb.net/<node-auth>?retryWrites=true&w=majority
